@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Will you be my Valentine? 💕</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #ff6b9d 0%, #c44569 50%, #6b2d5c 100%);
+      font-family: 'Quicksand', sans-serif;
+      overflow: hidden;
+    }
+
+    /* Floating hearts background */
+    .hearts-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 1.5rem;
+      opacity: 0.3;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(10deg); }
+    }
+
+    .content {
+      text-align: center;
+      z-index: 10;
+      padding: 2rem;
+    }
+
+    h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      color: rgba(255,255,255,0.95);
+      font-size: clamp(1.2rem, 4vw, 1.8rem);
+      margin-bottom: 3rem;
+      font-weight: 400;
+    }
+
+    .buttons-container {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+      min-height: 120px;
+    }
+
+    /* Big Yes button - fixed */
+    .btn-yes {
+      padding: 1.2rem 3.5rem;
+      font-size: 2rem;
+      font-family: 'Dancing Script', cursive;
+      font-weight: 700;
+      color: white;
+      background: linear-gradient(145deg, #ff6b9d, #e84393);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-yes:hover {
+      transform: scale(1.08);
+      box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+    }
+
+    .btn-yes:active {
+      transform: scale(1.02);
+    }
+
+    /* Small No button - escapes! */
+    .btn-no {
+      padding: 0.5rem 1.2rem;
+      font-size: 1rem;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 600;
+      color: #6b2d5c;
+      background: rgba(255,255,255,0.9);
+      border: 2px solid rgba(255,255,255,0.5);
+      border-radius: 25px;
+      cursor: pointer;
+      position: fixed;
+      left: 55%;
+      top: 52%;
+      transform: translate(-50%, -50%);
+      transition: left 0.25s ease-out, top 0.25s ease-out;
+    }
+
+    .btn-no:hover {
+      background: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="hearts-bg" id="heartsBg"></div>
+
+  <div class="content">
+    <h1>Jasmine 💕</h1>
+    <p class="subtitle">Will you be my Valentine?</p>
+
+    <div class="buttons-container">
+      <a href="yes.html" class="btn-yes">Yes! 💝</a>
+      <button class="btn-no" id="btnNo">No</button>
+    </div>
+  </div>
+
+  <script>
+    // Create floating hearts
+    const heartsBg = document.getElementById('heartsBg');
+    const heartChars = ['💕', '💖', '💗', '❤️', '💓'];
+    
+    for (let i = 0; i < 15; i++) {
+      const heart = document.createElement('span');
+      heart.className = 'heart';
+      heart.textContent = heartChars[Math.floor(Math.random() * heartChars.length)];
+      heart.style.left = Math.random() * 100 + '%';
+      heart.style.top = Math.random() * 100 + '%';
+      heart.style.animationDelay = Math.random() * 4 + 's';
+      heartsBg.appendChild(heart);
+    }
+
+    // Escaping No button
+    const btnNo = document.getElementById('btnNo');
+
+    function moveButton() {
+      const btnRect = btnNo.getBoundingClientRect();
+      const maxX = window.innerWidth - btnRect.width - 40;
+      const maxY = window.innerHeight - btnRect.height - 40;
+      
+      let newX = Math.random() * maxX + 20;
+      let newY = Math.random() * maxY + 20;
+      
+      newX = Math.max(20, Math.min(newX, maxX));
+      newY = Math.max(20, Math.min(newY, maxY));
+      
+      btnNo.style.transform = 'none';
+      btnNo.style.left = newX + 'px';
+      btnNo.style.top = newY + 'px';
+    }
+
+    // Escape on hover (mouse approaching)
+    btnNo.addEventListener('mouseenter', () => {
+      moveButton();
+    });
+
+    // Also escape when clicking (in case they're fast!)
+    btnNo.addEventListener('click', (e) => {
+      e.preventDefault();
+      moveButton();
+    });
+
+    // Escape when cursor gets close (optional - adds extra difficulty)
+    document.addEventListener('mousemove', (e) => {
+      const btnRect = btnNo.getBoundingClientRect();
+      const btnCenterX = btnRect.left + btnRect.width / 2;
+      const btnCenterY = btnRect.top + btnRect.height / 2;
+      const distance = Math.sqrt(
+        Math.pow(e.clientX - btnCenterX, 2) + 
+        Math.pow(e.clientY - btnCenterY, 2)
+      );
+      // Escape when cursor is within 120px
+      if (distance < 120) {
+        moveButton();
+      }
+    });
+
+  </script>
+</body>
+</html>

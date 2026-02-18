@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>You said Yes! 💕</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #ff6b9d 0%, #c44569 50%, #6b2d5c 100%);
+      font-family: 'Quicksand', sans-serif;
+      overflow: hidden;
+    }
+
+    .confetti {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .content {
+      text-align: center;
+      z-index: 10;
+      padding: 2rem;
+      animation: popIn 0.6s ease-out;
+    }
+
+    @keyframes popIn {
+      0% {
+        transform: scale(0.5);
+        opacity: 0;
+      }
+      70% {
+        transform: scale(1.05);
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+      margin-bottom: 1rem;
+    }
+
+    .heart-burst {
+      font-size: 5rem;
+      animation: heartbeat 0.8s ease-in-out infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    p {
+      color: rgba(255,255,255,0.95);
+      font-size: clamp(1.2rem, 4vw, 1.5rem);
+      margin-top: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="confetti" id="confetti"></div>
+
+  <div class="content">
+    <h1>Yay! You said Yes! 🎉</h1>
+    <div class="heart-burst">💝💕💖</div>
+    <p>Best Valentine's Day ever! I love you, Jasmine! 💗</p>
+  </div>
+
+  <script>
+    // Simple confetti effect
+    const confettiEl = document.getElementById('confetti');
+    const colors = ['#ff6b9d', '#fff', '#ffd93d', '#e84393'];
+    const shapes = ['💕', '💖', '❤️', '💗', '✨'];
+
+    for (let i = 0; i < 50; i++) {
+      const piece = document.createElement('div');
+      piece.style.position = 'absolute';
+      piece.style.left = Math.random() * 100 + '%';
+      piece.style.top = '-20px';
+      piece.style.fontSize = (Math.random() * 20 + 15) + 'px';
+      piece.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+      piece.style.animation = `fall ${3 + Math.random() * 4}s linear ${Math.random() * 2}s forwards`;
+      confettiEl.appendChild(piece);
+    }
+
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes fall {
+        to {
+          transform: translateY(100vh) rotate(720deg);
+          opacity: 0;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>
